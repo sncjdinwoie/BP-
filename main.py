@@ -5,20 +5,18 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 # 训练数据集
 df = pd.read_excel(r"C:\Users\bendaye\Desktop\机器学习数据.xlsx")
-x = df[['x1', 'x2', 'x3']]
+x = df[['x1', 'x2','x3']]
 y = df[['y']]
-# x = np.array(x)
-# y = np.array(y)
 # 归一化
-x_scaler = MinMaxScaler(feature_range=(-1, 1))
-y_scaler = MinMaxScaler(feature_range=(-1, 1))
+x_scaler = MinMaxScaler(feature_range=(0, 1))
+y_scaler = MinMaxScaler(feature_range=(0, 1))
 x = x_scaler.fit_transform(x)
 y = y_scaler.fit_transform(y)
 # 参数设置
 epochs_max = 50000
 learn_rate1 = 0.035
 learn_rate2 = 0.05
-hidden_layer = 3
+hidden_layer = 5
 error_min = 0.0001
 # 初始化参数
 w1 = 0.5*np.random.randn(len(x[0]), hidden_layer)-0.1
@@ -36,6 +34,7 @@ if __name__ == '__main__':
         predict_output = sigmoid(np.dot(hidden_output, w2) - b2)
         # 计算误差
         error = np.sum((predict_output - y) ** 2) / 2
+        error = np.mean(error)
         if error < error_min:
             break
         # 反向传播
